@@ -8,8 +8,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import '/build/css/style.css';
-import { api_key } from './key';
-import { PROXY_URL } from './key';
+import { api_key } from './key.js';
 const movieDisplay = document.getElementById('movie-display-container');
 const movieSearchBox = document.getElementById('movie-search-box');
 const searchList = document.getElementById('search-list');
@@ -17,17 +16,21 @@ let searchTerm = movieSearchBox.value.trim();
 // Get Search Term to call API
 function searchMovies(searchTerm) {
     if (searchTerm.length > 0) {
-        fetchMovieList();
-        loadMovies();
-        searchTerm = '';
+        loadMovies(searchTerm);
     }
 }
 // API Call
-const fetchMovieList = () => __awaiter(void 0, void 0, void 0, function* () {
+const fetchMovieList = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
-    const movieResp = yield fetch(PROXY_URL + API_URL);
+    const movieResp = yield fetch(API_URL);
     return yield movieResp.json();
 });
+// API Results
+function displayPosters(results) {
+    for (let { poster_path } of results) {
+        displayPoster(poster_path);
+    }
+}
 // Get Movie Poster
 function displayPoster(poster) {
     if (poster != null) {
@@ -38,14 +41,14 @@ function displayPoster(poster) {
     }
 }
 // Generate Movie Results
-const loadMovies = () => __awaiter(void 0, void 0, void 0, function* () {
+const loadMovies = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const movieList = yield fetchMovieList();
-        if (movieList.page != null) {
-            for (let { poster_path } of movieList.results) {
-                displayPoster(poster_path);
-                searchTerm = '';
-            }
+        const movieList = yield fetchMovieList(searchTerm);
+        if (movieList.results.length) {
+            displayPosters(movieList.results);
+        }
+        else {
+            // Display fallback image
         }
     }
     catch (err) {
@@ -55,6 +58,7 @@ const loadMovies = () => __awaiter(void 0, void 0, void 0, function* () {
 // On load
 movieSearchBox.addEventListener('keypress', (e) => {
     if (e.key == 'Enter') {
+        const searchTerm = movieSearchBox.value.trim();
         movieDisplay.innerHTML = '';
         searchMovies(searchTerm);
     }

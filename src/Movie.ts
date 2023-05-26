@@ -4,7 +4,8 @@ export interface Movie_Search {
   total_pages?: number;
   total_results?: number;
 }
-interface Result extends Movie_Search {
+
+export interface Result {
   adult?: boolean;
   backdrop_path?: string;
   genre_ids?: number[];
