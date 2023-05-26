@@ -1,11 +1,10 @@
-export interface Movie {
+export interface Movie_Search {
   page: number;
   results: Result[];
   total_pages?: number;
   total_results?: number;
 }
-
-export interface Result {
+interface Result extends Movie_Search {
   adult?: boolean;
   backdrop_path?: string;
   genre_ids?: number[];
@@ -24,5 +23,5 @@ export interface Result {
 
 export enum OriginalLanguage {
   En = 'en',
-  Ja = 'ja'
+  Ja = 'ja',
 }

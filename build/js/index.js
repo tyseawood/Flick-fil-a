@@ -8,42 +8,26 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import '/build/css/style.css';
+import { api_key } from './key';
+import { PROXY_URL } from './key';
 const movieDisplay = document.getElementById('movie-display-container');
 const movieSearchBox = document.getElementById('movie-search-box');
 const searchList = document.getElementById('search-list');
+let searchTerm = movieSearchBox.value.trim();
 // Get Search Term to call API
-function findMovies() {
-    let searchTerm = movieSearchBox.value.trim();
+function searchMovies(searchTerm) {
     if (searchTerm.length > 0) {
-        searchList.classList.remove('hide-search-list');
-        loadMovies(searchTerm);
-    }
-    else {
-        searchList.classList.add('hide-search-list');
+        fetchMovieList();
+        loadMovies();
+        searchTerm = '';
     }
 }
-// Generate Movie Results
-function loadMovies(searchTerm) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const api_key = '250b65ac19c1d23b70718726a42ee160';
-        const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-        const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
-        try {
-            yield fetch(PROXY_URL + API_URL)
-                .then((response) => response.json())
-                .then((data) => {
-                if (data.page != null) {
-                    for (let { poster_path } of data.results) {
-                        displayPoster(poster_path);
-                    }
-                }
-            });
-        }
-        catch (error) {
-            console.log('Movie wont load', error);
-        }
-    });
-}
+// API Call
+const fetchMovieList = () => __awaiter(void 0, void 0, void 0, function* () {
+    const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
+    const movieResp = yield fetch(PROXY_URL + API_URL);
+    return yield movieResp.json();
+});
 // Get Movie Poster
 function displayPoster(poster) {
     if (poster != null) {
@@ -53,10 +37,25 @@ function displayPoster(poster) {
         movieDisplay.appendChild(moviePoster);
     }
 }
+// Generate Movie Results
+const loadMovies = () => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movieList = yield fetchMovieList();
+        if (movieList.page != null) {
+            for (let { poster_path } of movieList.results) {
+                displayPoster(poster_path);
+                searchTerm = '';
+            }
+        }
+    }
+    catch (err) {
+        console.error(err);
+    }
+});
 // On load
 movieSearchBox.addEventListener('keypress', (e) => {
     if (e.key == 'Enter') {
         movieDisplay.innerHTML = '';
-        findMovies();
+        searchMovies(searchTerm);
     }
 });
