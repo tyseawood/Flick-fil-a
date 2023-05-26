@@ -8,41 +8,28 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 import '/build/css/style.css';
+import { api_key } from './key.js';
 const movieDisplay = document.getElementById('movie-display-container');
 const movieSearchBox = document.getElementById('movie-search-box');
 const searchList = document.getElementById('search-list');
+let searchTerm = movieSearchBox.value.trim();
 // Get Search Term to call API
-function findMovies() {
-    let searchTerm = movieSearchBox.value.trim();
+function searchMovies(searchTerm) {
     if (searchTerm.length > 0) {
-        searchList.classList.remove('hide-search-list');
         loadMovies(searchTerm);
     }
-    else {
-        searchList.classList.add('hide-search-list');
-    }
 }
-// Generate Movie Results
-function loadMovies(searchTerm) {
-    return __awaiter(this, void 0, void 0, function* () {
-        const api_key = '250b65ac19c1d23b70718726a42ee160';
-        const PROXY_URL = 'https://cors-anywhere.herokuapp.com/';
-        const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
-        try {
-            yield fetch(PROXY_URL + API_URL)
-                .then((response) => response.json())
-                .then((data) => {
-                if (data.page != null) {
-                    for (let { poster_path } of data.results) {
-                        displayPoster(poster_path);
-                    }
-                }
-            });
-        }
-        catch (error) {
-            console.log('Movie wont load', error);
-        }
-    });
+// API Call
+const fetchMovieList = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
+    const movieResp = yield fetch(API_URL);
+    return yield movieResp.json();
+});
+// API Results
+function displayPosters(results) {
+    for (let { poster_path } of results) {
+        displayPoster(poster_path);
+    }
 }
 // Get Movie Poster
 function displayPoster(poster) {
@@ -53,10 +40,26 @@ function displayPoster(poster) {
         movieDisplay.appendChild(moviePoster);
     }
 }
+// Generate Movie Results
+const loadMovies = (searchTerm) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const movieList = yield fetchMovieList(searchTerm);
+        if (movieList.results.length) {
+            displayPosters(movieList.results);
+        }
+        else {
+            // Display fallback image
+        }
+    }
+    catch (err) {
+        console.error(err);
+    }
+});
 // On load
 movieSearchBox.addEventListener('keypress', (e) => {
     if (e.key == 'Enter') {
+        const searchTerm = movieSearchBox.value.trim();
         movieDisplay.innerHTML = '';
-        findMovies();
+        searchMovies(searchTerm);
     }
 });

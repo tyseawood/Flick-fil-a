@@ -1,4 +1,4 @@
-export interface Movie {
+export interface Movie_Search {
   page: number;
   results: Result[];
   total_pages?: number;
@@ -24,5 +24,5 @@ export interface Result {
 
 export enum OriginalLanguage {
   En = 'en',
-  Ja = 'ja'
+  Ja = 'ja',
 }
