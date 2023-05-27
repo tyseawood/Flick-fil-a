@@ -8,8 +8,6 @@ const movieDisplay = document.getElementById(
 const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement;
-const searchList = document.getElementById('search-list') as HTMLInputElement;
-let searchTerm = movieSearchBox.value.trim();
 
 // Get Search Term to call API
 function searchMovies(searchTerm: string): void {
@@ -17,21 +15,21 @@ function searchMovies(searchTerm: string): void {
     loadMovies(searchTerm);
   }
 }
-// API Call
+// Fetch Data, Return JSON
 const fetchMovieList = async (searchTerm: string): Promise<Movie_Search> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`;
   const movieResp = await fetch(API_URL);
   return await movieResp.json();
 };
 
-// API Results
-function displayPosters(results: Result[]): void {
+// Movie Results
+function displayMovieResults(results: Result[]): void {
     for (let { poster_path } of results) {
       displayPoster(poster_path);
     }
 }
 
-// Get Movie Poster
+// Generate Poster
 function displayPoster(poster: string): void {
   if (poster != null) {
     const moviePoster = document.createElement('img');
@@ -46,7 +44,7 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
   try {
     const movieList = await fetchMovieList(searchTerm);
     if (movieList.results.length) {
-      displayPosters(movieList.results)
+      displayMovieResults(movieList.results)
     } else {
       // Display fallback image
     }
