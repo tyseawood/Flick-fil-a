@@ -24,7 +24,7 @@ const fetchMovieList = async (searchTerm: string): Promise<Movie_Search> => {
 
 // Movie Results
 function displayMovieResults(results: Result[]): void {
-    for (let { poster_path } of results) {
+    for (const { poster_path } of results) {
       displayPoster(poster_path);
     }
 }

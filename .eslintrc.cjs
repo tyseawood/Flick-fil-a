@@ -1,19 +1,7 @@
-/* eslint-env node */
+/* eslint-disable no-undef */
 module.exports = {
-  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended','plugin:@typescript-eslint/recommended-requiring-type-checking'],
+  extends: ['eslint:recommended', 'plugin:@typescript-eslint/recommended'],
   parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: true,
-    tsconfigRootDir:__dirname,
-  },
-  plugins: ['@typescript-eslint', '@typescript-eslint/recommended-requiring-type-checking'],
-  root: true,
-  // overrides: [
-  //   {
-  //     extends: [
-  //       'plugin:@typescript-eslint/recommended-requiring-type-checking',
-  //     ],
-  //     files: ['./**/*.{ts,tsx}'],
-  //   },
-  // ],
-}; 
+  plugins: ['@typescript-eslint'],
+  root: true
+}
