@@ -9,7 +9,7 @@ This is a movie search web application that allows you to search any movie withi
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/tyseawood/MovieApp-ts.git
 ```
 
 Go to the project directory
