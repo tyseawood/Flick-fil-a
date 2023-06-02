@@ -2,9 +2,7 @@ import '/build/css/style.css'
 import { Movie_Search, Result } from './Movie'
 import { api_key } from './key.js'
 
-const movieDisplay = document.getElementById(
-  'movie-display-container'
-) as HTMLElement
+const movieDisplay = document.getElementById('movie-display-container')!
 const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement
@@ -19,7 +17,7 @@ function searchMovies(searchTerm: string): void {
 const fetchMovieList = async (searchTerm: string): Promise<Movie_Search> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
-  return await movieResp.json()
+  return movieResp.json()
 }
 
 // Movie Results
