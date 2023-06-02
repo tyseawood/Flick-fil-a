@@ -1,4 +1,6 @@
 module.exports = {
+  "root": true,
+  "plugins": ["@typescript-eslint", "import", "prettier"],
   "extends": [
     "eslint:recommended",
     "airbnb-typescript/base",
@@ -9,8 +11,9 @@ module.exports = {
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "project": ["./tsconfig.json"]
+    "tsconfigRootDir": __dirname,
+    "project": ["./tsconfig.json"],
+    "ecmaVersion": "latest",
+    "sourceType": "module"
   },
-  "plugins": ["@typescript-eslint", "prettier"],
-  "root": true
 }
