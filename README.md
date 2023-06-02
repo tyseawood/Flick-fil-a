@@ -9,7 +9,7 @@ This is a movie search web application that allows you to search any movie withi
 Clone the project
 
 ```bash
-  git clone https://github.com/tyseawood/MovieApp-ts.git
+  git clone https://github.com/tyseawood/Flick-fil-a.git
 ```
 
 Go to the project directory
@@ -31,9 +31,9 @@ Start the server
 ```
 
 
-## Deployment
+## Build
 
-To deploy this project run
+To build this project run
 
 ```bash
   npm run build
@@ -49,4 +49,4 @@ To deploy this project run
 
 ## Support
 
-For support, email tyseawood@protonmail.com.
+For support, email help@tsservices.pro
