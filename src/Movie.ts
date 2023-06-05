@@ -1,4 +1,4 @@
-export interface Movie_Search {
+export interface MovieSearch {
   page: number
   results: Result[]
   total_pages?: number
