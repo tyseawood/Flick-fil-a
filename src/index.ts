@@ -11,6 +11,7 @@ const movieSearchBox = document.getElementById(
 // Get Search Term to call API
 function searchMovies(searchTerm: string): void {
   if (searchTerm.length > 0) {
+    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix floating promise.
     // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-use-before-define
     loadMovies(searchTerm)
   }
@@ -19,16 +20,18 @@ function searchMovies(searchTerm: string): void {
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
+  // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix no unsafe return
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return movieResp.json()
 }
 
 // Movie Results
 function displayMovieResults(results: Result[]): void {
-  // eslint-disable-next-line no-restricted-syntax, @typescript-eslint/naming-convention, camelcase
-  for (const { poster_path } of results) {
+  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { poster_path: posterPath } of results) {
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    displayPoster(poster_path)
+    displayPoster(posterPath)
   }
 }
 
