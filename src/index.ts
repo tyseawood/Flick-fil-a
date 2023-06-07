@@ -1,8 +1,9 @@
-import '/build/css/style.css'
-import { Movie_Search, Result } from './Movie'
-import { api_key } from './key.js'
+import { MovieSearch, Result } from './Movie'
+import { apiKey } from './key'
 
-const movieDisplay = document.getElementById('movie-display-container')!
+const movieDisplay = document.getElementById(
+  'movie-display-container'
+) as HTMLElement
 const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement
@@ -10,20 +11,27 @@ const movieSearchBox = document.getElementById(
 // Get Search Term to call API
 function searchMovies(searchTerm: string): void {
   if (searchTerm.length > 0) {
+    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix floating promise.
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-use-before-define
     loadMovies(searchTerm)
   }
 }
 // Fetch Data, Return JSON
-const fetchMovieList = async (searchTerm: string): Promise<Movie_Search> => {
-  const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${api_key}&query=${searchTerm}`
+const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
+  const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
+  // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix no unsafe return
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return movieResp.json()
 }
 
 // Movie Results
 function displayMovieResults(results: Result[]): void {
-  for (const { poster_path } of results) {
-    displayPoster(poster_path)
+  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { poster_path: posterPath } of results) {
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
+    displayPoster(posterPath)
   }
 }
 
@@ -53,7 +61,7 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
 
 // On load
 movieSearchBox.addEventListener('keypress', (e) => {
-  if (e.key == 'Enter') {
+  if (e.key === 'Enter') {
     const searchTerm = movieSearchBox.value.trim()
     movieDisplay.innerHTML = ''
     searchMovies(searchTerm)

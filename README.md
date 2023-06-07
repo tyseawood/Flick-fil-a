@@ -1,8 +1,6 @@
-
 # Flick-fil-a
 
 This is a movie search web application that allows you to search any movie within the database. This app also allows for adding movies to your favorites and storing them for later recall.
-
 
 ## Run Locally
 
@@ -30,7 +28,6 @@ Start the server
   npm run start
 ```
 
-
 ## Build
 
 To build this project run
@@ -39,13 +36,11 @@ To build this project run
   npm run build
 ```
 
-
 ## Tech Stack
 
 **Client:** TypeScript
 
 **Server:** Node, Express
-
 
 ## Support
 
