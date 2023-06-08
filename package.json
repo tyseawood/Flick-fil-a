@@ -6,7 +6,7 @@
     "name": "Ty Seawood"
   },
   "type": "module",
-  "main": "build/js/index.js",
+  "main": "dist",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
