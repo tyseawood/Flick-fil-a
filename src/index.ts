@@ -1,3 +1,4 @@
+import './style.css'
 import { MovieSearch, Result } from './Movie'
 import { apiKey } from './key'
 
