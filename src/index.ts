@@ -1,6 +1,7 @@
 import './style.css'
 import { MovieSearch, Result } from './Movie'
-import { apiKey } from './key'
+
+const apiKey = import.meta.env.APP_APIKEY
 
 const movieDisplay = document.getElementById(
   'movie-display-container'
