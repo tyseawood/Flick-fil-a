@@ -14,7 +14,7 @@ const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
   // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix no unsafe return
-  return movieResp.json()
+  return movieResp.json() as Promise<MovieSearch>
 }
 
 function displayPoster(poster: string): void {
