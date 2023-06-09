@@ -28,11 +28,12 @@ function displayPoster(poster: string): void {
 }
 
 function displayMovieResults(results: Result[]): void {
-  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
-  // eslint-disable-next-line no-restricted-syntax
-  for (const { poster_path: posterPath } of results) {
+  const movieListReturn = results.map((movies) => {
+    return movies
+  })
+  movieListReturn.forEach(({ poster_path: posterPath }) => {
     displayPoster(posterPath)
-  }
+  })
 }
 
 const loadMovies = async (searchTerm: string): Promise<void> => {
