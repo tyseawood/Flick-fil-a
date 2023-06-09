@@ -10,15 +10,6 @@ const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement
 
-// Get Search Term to call API
-function searchMovies(searchTerm: string): void {
-  if (searchTerm.length > 0) {
-    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix floating promise.
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-use-before-define
-    loadMovies(searchTerm)
-  }
-}
-// Fetch Data, Return JSON
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
@@ -27,17 +18,6 @@ const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   return movieResp.json()
 }
 
-// Movie Results
-function displayMovieResults(results: Result[]): void {
-  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
-  // eslint-disable-next-line no-restricted-syntax
-  for (const { poster_path: posterPath } of results) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    displayPoster(posterPath)
-  }
-}
-
-// Generate Poster
 function displayPoster(poster: string): void {
   if (poster != null) {
     const moviePoster = document.createElement('img')
@@ -47,7 +27,14 @@ function displayPoster(poster: string): void {
   }
 }
 
-// Generate Movie Results
+function displayMovieResults(results: Result[]): void {
+  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
+  // eslint-disable-next-line no-restricted-syntax
+  for (const { poster_path: posterPath } of results) {
+    displayPoster(posterPath)
+  }
+}
+
 const loadMovies = async (searchTerm: string): Promise<void> => {
   try {
     const movieList = await fetchMovieList(searchTerm)
@@ -58,6 +45,14 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
     }
   } catch (err) {
     console.error(err)
+  }
+}
+
+function searchMovies(searchTerm: string): void {
+  if (searchTerm.length > 0) {
+    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/20): Fix floating promise.
+    // eslint-disable-next-line @typescript-eslint/no-floating-promises
+    loadMovies(searchTerm)
   }
 }
 
