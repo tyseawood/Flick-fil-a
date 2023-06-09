@@ -14,7 +14,6 @@ const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
   // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix no unsafe return
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   return movieResp.json()
 }
 
@@ -28,10 +27,7 @@ function displayPoster(poster: string): void {
 }
 
 function displayMovieResults(results: Result[]): void {
-  const movieListReturn = results.map((movies) => {
-    return movies
-  })
-  movieListReturn.forEach(({ poster_path: posterPath }) => {
+  results.forEach(({ poster_path: posterPath }) => {
     displayPoster(posterPath)
   })
 }
@@ -49,19 +45,19 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
   }
 }
 
-function searchMovies(searchTerm: string): void {
+async function searchMovies(searchTerm: string): Promise<void> {
   if (searchTerm.length > 0) {
-    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/20): Fix floating promise.
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    loadMovies(searchTerm)
+    await loadMovies(searchTerm)
+  }
+}
+async function keyPressHandler(e: KeyboardEvent): Promise<void> {
+  if (e.key === 'Enter') {
+    const searchTerm = movieSearchBox.value.trim()
+    movieDisplay.innerHTML = ''
+    await searchMovies(searchTerm)
   }
 }
 
 // On load
-movieSearchBox.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') {
-    const searchTerm = movieSearchBox.value.trim()
-    movieDisplay.innerHTML = ''
-    searchMovies(searchTerm)
-  }
-})
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+movieSearchBox.addEventListener('keypress', keyPressHandler)
