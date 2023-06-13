@@ -1,6 +1,7 @@
 import './style.css'
 import { MovieSearch, Result } from './Movie'
-import { apiKey } from './key'
+
+const apiKey = import.meta.env.APP_APIKEY
 
 const movieDisplay = document.getElementById(
   'movie-display-container'
@@ -9,34 +10,12 @@ const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement
 
-// Get Search Term to call API
-function searchMovies(searchTerm: string): void {
-  if (searchTerm.length > 0) {
-    // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix floating promise.
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises, @typescript-eslint/no-use-before-define
-    loadMovies(searchTerm)
-  }
-}
-// Fetch Data, Return JSON
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
-  // TODO:(https://github.com/tyseawood/Flick-fil-a/issues/19): Fix no unsafe return
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  return movieResp.json()
+  return movieResp.json() as Promise<MovieSearch>
 }
 
-// Movie Results
-function displayMovieResults(results: Result[]): void {
-  // TODO:(https://github.com/tyseawood/Flick-fil-a/issue/19): Fix restricted syntax
-  // eslint-disable-next-line no-restricted-syntax
-  for (const { poster_path: posterPath } of results) {
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    displayPoster(posterPath)
-  }
-}
-
-// Generate Poster
 function displayPoster(poster: string): void {
   if (poster != null) {
     const moviePoster = document.createElement('img')
@@ -46,7 +25,12 @@ function displayPoster(poster: string): void {
   }
 }
 
-// Generate Movie Results
+function displayMovieResults(results: Result[]): void {
+  results.forEach(({ poster_path: posterPath }) => {
+    displayPoster(posterPath)
+  })
+}
+
 const loadMovies = async (searchTerm: string): Promise<void> => {
   try {
     const movieList = await fetchMovieList(searchTerm)
@@ -60,11 +44,19 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
   }
 }
 
-// On load
-movieSearchBox.addEventListener('keypress', (e) => {
+async function searchMovies(searchTerm: string): Promise<void> {
+  if (searchTerm.length > 0) {
+    await loadMovies(searchTerm)
+  }
+}
+async function keyPressHandler(e: KeyboardEvent): Promise<void> {
   if (e.key === 'Enter') {
     const searchTerm = movieSearchBox.value.trim()
     movieDisplay.innerHTML = ''
-    searchMovies(searchTerm)
+    await searchMovies(searchTerm)
   }
-})
+}
+
+// On load
+// eslint-disable-next-line @typescript-eslint/no-misused-promises
+movieSearchBox.addEventListener('keypress', keyPressHandler)
