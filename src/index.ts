@@ -44,19 +44,21 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
   }
 }
 
-async function searchMovies(searchTerm: string): Promise<void> {
-  if (searchTerm.length > 0) {
-    await loadMovies(searchTerm)
-  }
-}
-async function keyPressHandler(e: KeyboardEvent): Promise<void> {
+async function searchMovies(e: KeyboardEvent): Promise<void> {
   if (e.key === 'Enter') {
     const searchTerm = movieSearchBox.value.trim()
+    movieSearchBox.value = ''
     movieDisplay.innerHTML = ''
-    await searchMovies(searchTerm)
+
+    if (!searchTerm.length) {
+      e.preventDefault()
+      console.error('NO MOVIE ENTERED')
+    } else {
+      await loadMovies(searchTerm)
+    }
   }
 }
 
 // On load
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-movieSearchBox.addEventListener('keypress', keyPressHandler)
+movieSearchBox.addEventListener('keypress', searchMovies)
