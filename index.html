@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Flick-fil-a</title>
-  </head>
-  <body>
-    <div id="app-container">
-      <!-- logo -->
-      <div class="logo">
+</head>
+<body>
+<div id="app-container">
+    <!-- logo -->
+    <div class="logo">
         <div class="container">
-          <p><span>Flick</span>-fil-<span>a</span></p>
+            <p><span>Flick</span>-fil-<span>a</span></p>
         </div>
-      </div>
-      <!-- end of logo -->
-
-      <!-- Search container -->
-      <div id="search-container">
-        <div class="search-element">
-          <input
-            type="text"
-            class="form-control"
-            placeholder="Search Movie Title ..."
-            id="movie-search-box"
-          />
-
-          <div class="search-list" id="search-list">
-            <!-- List here -->
-            <div class="search-list-item"></div>
-          </div>
-        </div>
-      </div>
-      <!-- End of search container -->
-
-      <!-- Movie Display -->
-      <div id="movie-display-container" class="movie-container"></div>
-      <!-- End of Movie Display -->
     </div>
+    <!-- end of logo -->
 
-    <!-- Scripts -->
-    <script defer type="module" src="/src/index.ts"></script>
-  </body>
+    <!-- Search container -->
+    <div id="search-container">
+        <div class="search-element">
+            <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Search Movie Title ..."
+                    id="movie-search-box"
+            />
+            <label for="movie-search-box"></label>
+            <div id="err-display-container" class="error"></div>
+
+            <div class="search-list" id="search-list">
+                <!-- List here -->
+                <div class="search-list-item"></div>
+            </div>
+        </div>
+    </div>
+    <!-- End of search container -->
+
+    <!-- Movie Display -->
+    <div id="movie-display-container" class="movie-container"></div>
+    <!-- End of Movie Display -->
+</div>
+
+<!-- Scripts -->
+<script defer type="module" src="/src/index.ts"></script>
+</body>
 </html>

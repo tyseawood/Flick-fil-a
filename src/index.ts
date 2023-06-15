@@ -2,14 +2,15 @@ import './style.css'
 import { MovieSearch, Result } from './Movie'
 
 const apiKey = import.meta.env.APP_APIKEY
-
+const errorElement = document.getElementById(
+  'err-display-container'
+) as HTMLElement
 const movieDisplay = document.getElementById(
   'movie-display-container'
 ) as HTMLElement
 const movieSearchBox = document.getElementById(
   'movie-search-box'
 ) as HTMLInputElement
-
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
@@ -52,9 +53,16 @@ async function searchMovies(e: KeyboardEvent): Promise<void> {
 
     if (!searchTerm.length) {
       e.preventDefault()
-      console.error('NO MOVIE ENTERED')
+      const errMsg = []
+      errMsg.push('Please enter a Movie')
+
+      if (errMsg.length > 0) {
+        errorElement.innerText = errMsg.join(',')
+        console.error('NO MOVIE ENTERED')
+      }
     } else {
       await loadMovies(searchTerm)
+      errorElement.innerHTML = ''
     }
   }
 }
