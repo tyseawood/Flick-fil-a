@@ -14,7 +14,7 @@ const movieSearchBox = document.getElementById(
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
-  return movieResp.json() as Promise<MovieSearch>
+  return (await movieResp.json()) as Promise<MovieSearch>
 }
 
 function displayPoster(poster: string): void {
