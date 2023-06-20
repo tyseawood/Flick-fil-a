@@ -52,13 +52,7 @@ async function searchMovies(e: KeyboardEvent): Promise<void> {
     movieDisplay.innerHTML = ''
 
     if (!searchTerm.length) {
-      const errMsg = []
-      errMsg.push('Please enter a Movie')
-
-      if (errMsg.length > 0) {
-        errorElement.innerText = errMsg.join(',')
-        console.error('NO MOVIE ENTERED')
-      }
+      errorElement.innerText = 'Please enter a movie!'
     } else {
       await loadMovies(searchTerm)
       movieSearchBox.value = ''
