@@ -52,7 +52,6 @@ async function searchMovies(e: KeyboardEvent): Promise<void> {
     movieDisplay.innerHTML = ''
 
     if (!searchTerm.length) {
-      e.preventDefault()
       const errMsg = []
       errMsg.push('Please enter a Movie')
 
