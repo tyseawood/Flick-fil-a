@@ -49,7 +49,6 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
 async function searchMovies(e: KeyboardEvent): Promise<void> {
   if (e.key === 'Enter') {
     const searchTerm = movieSearchBox.value.trim()
-    movieSearchBox.value = ''
     movieDisplay.innerHTML = ''
 
     if (!searchTerm.length) {
@@ -63,6 +62,7 @@ async function searchMovies(e: KeyboardEvent): Promise<void> {
       }
     } else {
       await loadMovies(searchTerm)
+      movieSearchBox.value = ''
       errorElement.innerHTML = ''
     }
   }
