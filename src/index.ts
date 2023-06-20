@@ -61,6 +61,5 @@ async function searchMovies(e: KeyboardEvent): Promise<void> {
   }
 }
 
-// On load
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
 movieSearchBox.addEventListener('keypress', searchMovies)
