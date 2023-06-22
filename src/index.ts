@@ -2,7 +2,9 @@ import './style.css'
 import { MovieSearch, Result } from './Movie'
 
 const apiKey = import.meta.env.APP_APIKEY
-
+const errorElement = document.getElementById(
+  'err-display-container'
+) as HTMLElement
 const movieDisplay = document.getElementById(
   'movie-display-container'
 ) as HTMLElement
@@ -13,7 +15,7 @@ const movieSearchBox = document.getElementById(
 const fetchMovieList = async (searchTerm: string): Promise<MovieSearch> => {
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=${apiKey}&query=${searchTerm}`
   const movieResp = await fetch(API_URL)
-  return movieResp.json() as Promise<MovieSearch>
+  return (await movieResp.json()) as Promise<MovieSearch>
 }
 
 function displayPoster(poster: string): void {
@@ -44,19 +46,20 @@ const loadMovies = async (searchTerm: string): Promise<void> => {
   }
 }
 
-async function searchMovies(searchTerm: string): Promise<void> {
-  if (searchTerm.length > 0) {
-    await loadMovies(searchTerm)
-  }
-}
-async function keyPressHandler(e: KeyboardEvent): Promise<void> {
+async function searchMovies(e: KeyboardEvent): Promise<void> {
   if (e.key === 'Enter') {
     const searchTerm = movieSearchBox.value.trim()
     movieDisplay.innerHTML = ''
-    await searchMovies(searchTerm)
+
+    if (!searchTerm.length) {
+      errorElement.innerText = 'Please enter a movie!'
+    } else {
+      await loadMovies(searchTerm)
+      movieSearchBox.value = ''
+      errorElement.innerHTML = ''
+    }
   }
 }
 
-// On load
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-movieSearchBox.addEventListener('keypress', keyPressHandler)
+movieSearchBox.addEventListener('keypress', searchMovies)
